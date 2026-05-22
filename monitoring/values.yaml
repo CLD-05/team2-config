@@ -3,7 +3,6 @@
 # 팀원들의 애플리케이션 매트릭을 수집하기 위한 기본 환경을 정의 합니다
 
 
-
 # [1] Grafana (대시보드 설정)
 grafana:
   adminPassword: "admin"
