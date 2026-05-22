@@ -1,0 +1,39 @@
+
+---
+
+## team-config `.gitignore`
+
+```gitignore
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# kubeconfig
+kubeconfig
+*.kubeconfig
+
+# Secret files
+*.pem
+*.key
+*.crt
+.env
+
+# IDE
+.idea/
+.vscode/
+
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Logs
+*.log
