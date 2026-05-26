@@ -15,7 +15,7 @@
 # 콘솔 발급 키는 AWS가 공개키를 보관하므로 aws_key_pair 리소스 불필요
 # data source로 이름만 조회해서 EC2에 지정
 resource "aws_key_pair" "bastion" {
-  key_name   = "team2-key"
+  key_name   = var.key_name
   public_key = ""
 
   tags = {
@@ -131,6 +131,11 @@ resource "aws_instance" "bastion" {
 resource "aws_iam_instance_profile" "bastion" {
   name = "${var.project}-bastion-profile"
   role = aws_iam_role.bastion.name
+}
+
+resource "aws_iam_role_policy_attachment" "bastion_ecr_access" {
+  role       = aws_iam_role.bastion.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
 

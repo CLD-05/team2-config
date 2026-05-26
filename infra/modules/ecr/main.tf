@@ -24,6 +24,7 @@ resource "aws_ecr_repository" "this" {
 
   tags = {
     Name = each.value
+    team = "team2"
   }
 }
 
