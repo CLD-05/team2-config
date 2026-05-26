@@ -2,7 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - deployment.yaml
+- deployment.yaml
 
 images:
-  - name: team2
+- name: team2
+  newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team2-backend
+  newTag: sha-5dc2e5d
