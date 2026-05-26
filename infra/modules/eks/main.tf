@@ -24,6 +24,7 @@ module "ebs_csi_irsa" {
       namespace_service_accounts = ["kube-system:ebs-csi-controller-sa"]
     }
   }
+  tags = { team = "team2" }
 }
 
 # ALB Controller IRSA
@@ -40,6 +41,7 @@ module "alb_controller_irsa" {
       namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
     }
   }
+  tags = { team = "team2" }
 }
 
 # EKS 클러스터
@@ -105,6 +107,7 @@ module "eks" {
       tags = {
         "k8s.io/cluster-autoscaler/enabled"             = "true"
         "k8s.io/cluster-autoscaler/${var.cluster_name}" = "owned"
+        team                                            = "team2"
       }
     }
   }
@@ -115,6 +118,7 @@ module "eks" {
   tags = {
     Environment = var.environment
     ManagedBy   = "terraform"
+    team        = "team2"
   }
 }
 

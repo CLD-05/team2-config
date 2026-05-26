@@ -48,6 +48,12 @@ module "irsa_test" {
   oidc_provider_url = module.eks.oidc_provider_url
 }
 
+module "ecr" {
+  source       = "./modules/ecr"
+  project      = var.project
+  repositories = var.ecr_repositories
+}
+
 module "rds" {
   source                     = "./modules/rds"
   project                    = var.project

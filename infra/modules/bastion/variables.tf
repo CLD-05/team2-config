@@ -26,14 +26,14 @@ variable "my_ip" {
   type        = string
 }
 
-variable "key_name" {
-  description = "AWS 콘솔에서 발급한 EC2 Key Pair 이름"
-  type        = string
-  default     = "tf-key"
-}
-
 variable "instance_type" {
   description = "Bastion EC2 인스턴스 타입"
   type        = string
   default     = "t3.micro"
+}
+
+variable "key_name" {
+  description = "AWS 콘솔에서 발급한 EC2 Key Pair 이름"
+  type        = string
+  default     = "team2-key"
 }

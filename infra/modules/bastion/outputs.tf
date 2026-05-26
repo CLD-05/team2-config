@@ -18,10 +18,11 @@ output "security_group_id" {
   value = aws_security_group.bastion.id
 }
 
-output "key_name" {
-  value = data.aws_key_pair.bastion.key_name
-}
 
 output "role_arn" {
   value = aws_iam_role.bastion.arn
+}
+
+output "key_name" {
+  value = aws_key_pair.bastion.key_name
 }

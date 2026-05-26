@@ -4,14 +4,22 @@ provider "aws" {
 
 # 1. 상태 저장용 S3 버킷
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "my-unique-terraform-state-bucket-${data.aws_caller_identity.current.account_id}"
+  bucket = "tfstate-lionkdt5-team2"
 }
 
 data "aws_caller_identity" "current" {}
 
+resource "aws_s3_bucket_public_access_block" "state" {
+  bucket                  = aws_s3_bucket.terraform_state.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
 # 2. 동시 수정 방지용 DynamoDB
 resource "aws_dynamodb_table" "terraform_lock" {
-  name         = "terraform-lock"
+  name         = "tfstate-lock-team2"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
 

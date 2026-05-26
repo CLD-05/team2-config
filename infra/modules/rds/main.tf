@@ -3,7 +3,10 @@ resource "aws_db_subnet_group" "this" {
   name       = "${var.project}-db-subnet-group"
   subnet_ids = var.db_subnet_ids
 
-  tags = { Name = "${var.project}-db-subnet-group" }
+  tags = {
+    Name = "${var.project}-db-subnet-group"
+    team = "team2"
+  }
 }
 
 # 2. RDS Security Group
@@ -36,7 +39,7 @@ resource "aws_db_instance" "this" {
   db_name                 = "appdb"
   username                = "admin"
   backup_retention_period = 7
-  deletion_protection     = false
+  deletion_protection     = true
 
   # AWS가 비밀번호를 생성하고 관리하게 함 (Secrets Manager와 연동)
   manage_master_user_password = true

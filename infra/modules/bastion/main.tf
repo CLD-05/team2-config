@@ -11,11 +11,17 @@
 #
 # user_data 설치 목록: unzip, curl, jq, AWS CLI v2, kubectl, helm
 
-# AWS 콘솔에서 발급한 tf-key 참조
+# AWS 콘솔에서 발급한 team2-key 참조
 # 콘솔 발급 키는 AWS가 공개키를 보관하므로 aws_key_pair 리소스 불필요
 # data source로 이름만 조회해서 EC2에 지정
-data "aws_key_pair" "bastion" {
-  key_name = var.key_name
+resource "aws_key_pair" "bastion" {
+  key_name   = "team2-key"
+  public_key = ""
+
+  tags = {
+    Name = "team2-key"
+    team = "team2"
+  }
 }
 
 # Bastion 보안그룹 — 내 IP에서만 SSH 허용
@@ -64,10 +70,11 @@ resource "aws_instance" "bastion" {
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
   subnet_id                   = var.public_subnet_id
-  key_name                    = data.aws_key_pair.bastion.key_name
+  key_name                    = aws_key_pair.bastion.key_name
   vpc_security_group_ids      = [aws_security_group.bastion.id]
   iam_instance_profile        = aws_iam_instance_profile.bastion.name
   associate_public_ip_address = true
+
 
   # Bastion에 필요한 도구 자동 설치
   # Ubuntu 24.04: apt 저장소에서 awscli 제거됨 -> 공식 바이너리 설치 필요
@@ -111,6 +118,12 @@ resource "aws_instance" "bastion" {
 
   tags = {
     Name = "${var.project}-bastion"
+    team = "team2"
+  }
+
+  volume_tags = {
+    Name = "${var.project}-bastion"
+    team = "team2"
   }
 }
 
@@ -119,6 +132,7 @@ resource "aws_iam_instance_profile" "bastion" {
   name = "${var.project}-bastion-profile"
   role = aws_iam_role.bastion.name
 }
+
 
 resource "aws_iam_role" "bastion" {
   name = "${var.project}-bastion-role"
