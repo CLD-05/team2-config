@@ -1,5 +1,3 @@
-# modules/ecr/variables.tf
-
 variable "project" {
   description = "리소스 이름 prefix (태그용)"
   type        = string

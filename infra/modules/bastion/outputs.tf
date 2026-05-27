@@ -1,10 +1,9 @@
-# modules/bastion/outputs.tf
-#
 # 출력값:
 #   - public_ip        : Bastion 퍼블릭 IP (SSH 접속 주소)
 #   - instance_id      : EC2 인스턴스 ID
 #   - security_group_id: Bastion SG ID (EKS 보안그룹 규칙에 참조)
 #   - key_name         : Key Pair 이름
+#   - role_arn         : role_arn
 
 output "public_ip" {
   value = aws_instance.bastion.public_ip

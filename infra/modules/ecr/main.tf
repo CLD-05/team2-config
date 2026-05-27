@@ -1,5 +1,3 @@
-# modules/ecr/main.tf
-#
 # 생성 리소스:
 #   - aws_ecr_repository × N
 #     - image_tag_mutability: IMMUTABLE (같은 태그 덮어쓰기 차단)

@@ -1,19 +1,11 @@
-# modules/bastion/main.tf
-#
-# 생성 리소스:
-#   - data.aws_key_pair         : AWS 콘솔에서 발급한 tf-key 참조 (리소스 생성 X)
 #   - aws_security_group        : Bastion SG (인바운드: 내 IP만 22 허용)
 #   - data.aws_ami              : 최신 Ubuntu 24.04 LTS AMI 자동 조회
 #   - aws_instance              : Bastion EC2 (user_data로 도구 자동 설치)
 #   - aws_iam_instance_profile  : Bastion용 IAM 프로파일 (EKS 접근 권한)
 #   - aws_iam_role              : Bastion IAM Role
 #   - aws_iam_role_policy_attachment: AmazonEKSClusterPolicy 연결
-#
-# user_data 설치 목록: unzip, curl, jq, AWS CLI v2, kubectl, helm
 
-# AWS 콘솔에서 발급한 team2-key 참조
-# 콘솔 발급 키는 AWS가 공개키를 보관하므로 aws_key_pair 리소스 불필요
-# data source로 이름만 조회해서 EC2에 지정
+
 resource "aws_key_pair" "bastion" {
   key_name   = var.key_name
   public_key = ""
@@ -24,31 +16,37 @@ resource "aws_key_pair" "bastion" {
   }
 }
 
-# Bastion 보안그룹 — 내 IP에서만 SSH 허용
+# Bastion 보안그룹 — 규칙 없이 SG만 생성
 resource "aws_security_group" "bastion" {
   name        = "${var.project}-bastion-sg"
   description = "Bastion EC2 Security Group"
   vpc_id      = var.vpc_id
 
-  ingress {
-    description = "From manager IP"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = [var.my_ip]
-  }
-
-  egress {
-    description = "Allow all outbound traffic"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   tags = {
     Name = "${var.project}-bastion-sg"
   }
+}
+
+# SSH 인바운드 규칙 분리
+resource "aws_security_group_rule" "bastion_ssh" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = var.allowed_ips
+  security_group_id = aws_security_group.bastion.id
+  description       = "SSH from allowed IPs"
+}
+
+# 아웃바운드 규칙 분리
+resource "aws_security_group_rule" "bastion_egress" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.bastion.id
+  description       = "Allow all outbound traffic"
 }
 
 # 최신 Ubuntu 24.04 LTS AMI 자동 조회
@@ -78,6 +76,7 @@ resource "aws_instance" "bastion" {
 
   # Bastion에 필요한 도구 자동 설치
   # Ubuntu 24.04: apt 저장소에서 awscli 제거됨 -> 공식 바이너리 설치 필요
+  # user_data 설치 목록: unzip, curl, jq, AWS CLI v2, kubectl, helm
   user_data = <<-EOF
     #!/bin/bash
     set -e

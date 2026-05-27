@@ -1,4 +1,3 @@
-# modules/github-oidc/variables.tf
 
 variable "github_org" {
   description = "GitHub 사용자명 또는 조직명"

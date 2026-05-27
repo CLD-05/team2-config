@@ -1,5 +1,3 @@
-# modules/eks/variables.tf
-#
 # 주요 변수:
 #   - bastion_security_group_id: Bastion SG ID
 #     -> EKS API 서버 보안그룹에 Bastion SG 443 인바운드 허용 규칙 추가

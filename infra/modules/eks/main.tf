@@ -1,5 +1,3 @@
-# modules/eks/main.tf
-#
 # 생성 리소스:
 #   - module.ebs_csi_irsa       : EBS CSI Driver용 IRSA Role
 #     -> ebs-csi-controller-sa ServiceAccount에 EBS 관리 권한 부여

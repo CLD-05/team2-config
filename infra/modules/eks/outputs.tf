@@ -1,5 +1,3 @@
-# modules/eks/outputs.tf
-#
 # 출력값:
 #   - cluster_name            : EKS 클러스터 이름
 #   - cluster_endpoint        : API 서버 엔드포인트 (sensitive)

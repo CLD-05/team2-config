@@ -27,7 +27,7 @@ module "bastion" {
   project          = var.project
   vpc_id           = module.vpc.vpc_id
   public_subnet_id = module.vpc.public_subnet_ids[0]
-  my_ip            = var.my_ip
+  allowed_ips      = var.allowed_ips
 }
 
 # 4. EKS 모듈

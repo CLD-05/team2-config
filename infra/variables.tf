@@ -1,7 +1,10 @@
 variable "project" { default = "team2-project" }
 variable "github_org" { type = string }
 variable "github_repo" { type = string }
-variable "my_ip" { type = string } # 본인 IP 예: "1.2.3.4/32"
+variable "allowed_ips" {
+  type        = list(string)
+  description = "SSH 허용할 IP 목록"
+}
 # variables.tf
 variable "ecr_repositories" {
   type        = list(string)

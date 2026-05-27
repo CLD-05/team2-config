@@ -1,11 +1,3 @@
-# modules/bastion/variables.tf
-#
-# 역할: Bastion EC2 모듈 입력 변수 정의
-#   - my_ip   : SSH 허용할 내 공인 IP (x.x.x.x/32) — 반드시 본인 IP만 허용
-#   - key_name: AWS 콘솔에서 발급한 Key Pair 이름 (기본값: tf-key)
-#               콘솔에서 발급한 키는 AWS가 공개키를 보관
-#               -> aws_key_pair 리소스 불필요, data로 이름만 참조
-
 variable "project" {
   description = "리소스 이름 prefix"
   type        = string
@@ -21,9 +13,9 @@ variable "public_subnet_id" {
   type        = string
 }
 
-variable "my_ip" {
-  description = "SSH 허용할 내 공인 IP (x.x.x.x/32 형식)"
-  type        = string
+variable "allowed_ips" {
+  description = "SSH 허용할 IP 목록"
+  type        = list(string)
 }
 
 variable "instance_type" {
