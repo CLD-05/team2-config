@@ -54,13 +54,10 @@ resource "aws_iam_role" "github_actions" {
   }
 }
 
-# 보안 강화: AdministratorAccess 대신 최소 권한 적용
+
 resource "aws_iam_role_policy_attachment" "ecr_access" {
   role       = aws_iam_role.github_actions.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
 }
 
-resource "aws_iam_role_policy_attachment" "eks_access" {
-  role       = aws_iam_role.github_actions.name
-  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
-}
+

@@ -40,14 +40,6 @@ module "eks" {
   bastion_role_arn   = module.bastion.role_arn
 }
 
-# 5. IRSA Test 모듈
-module "irsa_test" {
-  source            = "./modules/irsa-test"
-  project           = var.project
-  oidc_provider_arn = module.eks.oidc_provider_arn
-  oidc_provider_url = module.eks.oidc_provider_url
-}
-
 module "ecr" {
   source       = "./modules/ecr"
   project      = var.project
