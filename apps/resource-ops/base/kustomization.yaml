@@ -7,4 +7,4 @@ resources:
 images:
 - name: team2
   newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team2-backend
-  newTag: sha-5dc2e5d
+  newTag: sha-b4b89fb
