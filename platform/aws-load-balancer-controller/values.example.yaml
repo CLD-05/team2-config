@@ -4,4 +4,4 @@ serviceAccount:
   create: true
   name: aws-load-balancer-controller
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/team2-project-cluster-alb-controller
+    eks.amazonaws.com/role-arn: arn:aws:iam::495599735720:role/team2-project-cluster-alb-controller
