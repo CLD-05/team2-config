@@ -38,6 +38,9 @@ module "eks" {
   vpc_id             = module.vpc.vpc_id
   private_subnet_ids = module.vpc.private_subnet_ids
   bastion_role_arn   = module.bastion.role_arn
+  eso_secret_arns    = [
+    "arn:aws:secretsmanager:ap-northeast-2:495599735720:secret:rds!db-3af6352b-e7f0-4fdc-9c52-4910b0dd815c-lMb7qs"
+  ]
 }
 
 # 5. IRSA Test 모듈

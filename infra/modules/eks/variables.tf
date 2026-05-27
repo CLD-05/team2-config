@@ -49,3 +49,8 @@ variable "bastion_role_arn" {
   description = "Bastion EC2 IAM Role ARN (EKS AcessEntry)"
   type        = string
 }
+
+variable "eso_secret_arns" {
+  description = "Secrets Manager secret ARNs that External Secrets Operator may read"
+  type        = list(string)
+}

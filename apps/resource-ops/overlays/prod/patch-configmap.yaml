@@ -4,3 +4,4 @@ metadata:
   name: resource-app-config
 data:
   SPRING_PROFILES_ACTIVE: prod
+  # Set after confirming the production RDS endpoint: jdbc:mysql://<endpoint>:3306/appdb

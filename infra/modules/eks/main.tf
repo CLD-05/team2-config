@@ -120,10 +120,10 @@ module "eks" {
   }
 }
 
-# ESO용 SSM Parameter Read Policy (사용자 정의)
+# ESO용 Secrets Manager Read Policy
 resource "aws_iam_policy" "eso" {
   name        = "${var.cluster_name}-eso-policy"
-  description = "External Secrets Operator: SSM Parameter Read + KMS Decrypt"
+  description = "External Secrets Operator: read approved Secrets Manager secrets"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -131,19 +131,10 @@ resource "aws_iam_policy" "eso" {
       {
         Effect = "Allow"
         Action = [
-          "ssm:GetParameter",
-          "ssm:GetParameters",
-          "ssm:GetParametersByPath",
-          "ssm:DescribeParameters"
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret"
         ]
-        Resource = "arn:aws:ssm:${var.aws_region}:*:parameter/${var.cluster_name}/*"
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "kms:Decrypt"
-        ]
-        Resource = "arn:aws:kms:${var.aws_region}:*:key/*"
+        Resource = var.eso_secret_arns
       }
     ]
   })

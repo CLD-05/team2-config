@@ -29,22 +29,24 @@ Targets use VPC CNI pod IPs and the health check path
 
 Install ESO with the `external-secrets-sa` service account and the
 `eso_role_arn` Terraform output, using `external-secrets/values.example.yaml`.
-The shared store uses the ESO controller IRSA identity to read SSM Parameter
-Store:
+The shared store uses the ESO controller IRSA identity to read AWS Secrets
+Manager:
 
 ```bash
 kubectl apply -k platform/external-secrets
 ```
 
-Create SecureString parameters matching the deployment environment:
+The dev overlay reads the RDS-managed master credential secret created by
+Terraform (`manage_master_user_password = true`):
 
 ```text
-/team2-project-cluster/resource-ops/dev/SPRING_DATASOURCE_URL
-/team2-project-cluster/resource-ops/dev/SPRING_DATASOURCE_USERNAME
-/team2-project-cluster/resource-ops/dev/SPRING_DATASOURCE_PASSWORD
+arn:aws:secretsmanager:ap-northeast-2:495599735720:secret:rds!db-3af6352b-e7f0-4fdc-9c52-4910b0dd815c-lMb7qs
 ```
 
-Use `/prod/` instead of `/dev/` for the production overlay.
+It maps the JSON properties `username` and `password` into the generated
+Kubernetes Secret. Configure `SPRING_DATASOURCE_URL` in the dev ConfigMap
+after confirming the RDS endpoint. The production overlay must receive its
+own production RDS Secret ARN and endpoint before deployment.
 
 ## Render and Verify
 
