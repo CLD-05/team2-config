@@ -14,4 +14,5 @@ patches:
 
 images:
   - name: team2-backend
-    newTag: dev-latest
+    newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team2-backend
+    newTag: sha-092114e
