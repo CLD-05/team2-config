@@ -9,5 +9,5 @@ variable "allowed_ips" {
 variable "ecr_repositories" {
   type        = list(string)
   description = "생성할 ECR Repository 이름 목록"
-  default     = ["team2-backend", "team2-frontend"]
+  default     = ["team2-backend"]
 }

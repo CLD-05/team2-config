@@ -49,3 +49,7 @@ output "oidc_provider_url" {
   description = "OIDC Provider URL (https:// 제거됨)"
   value       = module.eks.oidc_provider
 }
+
+output "cloudwatch_reader_role_arn" {
+  value = module.cloudwatch_irsa.iam_role_arn
+}
