@@ -5,7 +5,6 @@ provider "aws" {
     tags = {
       team    = "team2"
       project = "resource-opt"
-      env     = "dev"
     }
   }
 }

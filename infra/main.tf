@@ -34,7 +34,6 @@ module "bastion" {
 module "eks" {
   source             = "./modules/eks"
   cluster_name       = "${var.project}-cluster"
-  environment        = "prod"
   vpc_id             = module.vpc.vpc_id
   private_subnet_ids = module.vpc.private_subnet_ids
   bastion_role_arn   = module.bastion.role_arn

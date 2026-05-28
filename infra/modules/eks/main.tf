@@ -114,9 +114,8 @@ module "eks" {
   enable_cluster_creator_admin_permissions = true
 
   tags = {
-    Environment = var.environment
-    ManagedBy   = "terraform"
-    team        = "team2"
+    ManagedBy = "terraform"
+    team      = "team2"
   }
 }
 
@@ -165,4 +164,40 @@ module "eso_irsa" {
       namespace_service_accounts = ["external-secrets:external-secrets-sa"]
     }
   }
+}
+
+
+# CloudWatch Reader IRSA
+module "cloudwatch_irsa" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  version = "~> 5.48"
+
+  role_name = "${var.cluster_name}-cloudwatch-reader"
+  role_policy_arns = {
+    cloudwatch = aws_iam_policy.cloudwatch_reader.arn
+  }
+
+  oidc_providers = {
+    main = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["default:cloudwatch-reader-sa"]
+    }
+  }
+  tags = { team = "team2" }
+}
+
+resource "aws_iam_policy" "cloudwatch_reader" {
+  name        = "${var.cluster_name}-cloudwatch-reader-policy"
+  description = "CloudWatch GetMetricStatistics for resource optimization"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["cloudwatch:GetMetricStatistics"]
+      Resource = "*"
+    }]
+  })
+
+  tags = { team = "team2" }
 }
