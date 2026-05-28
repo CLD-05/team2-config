@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - deployment.yaml
   - service.yaml
+  - servicemonitor.yaml
   - configmap.yaml
   - serviceaccount.yaml
   - external-secret.yaml
