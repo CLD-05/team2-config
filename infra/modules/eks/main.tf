@@ -180,7 +180,7 @@ module "cloudwatch_irsa" {
   oidc_providers = {
     main = {
       provider_arn               = module.eks.oidc_provider_arn
-      namespace_service_accounts = ["default:cloudwatch-reader-sa"]
+      namespace_service_accounts = ["resource-ops-dev:resource-app-sa"]
     }
   }
   tags = { team = "team2" }
